@@ -1,9 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from "react-router-dom";
 import "./Movie.css";
 
-function Movie({year, title, summary, rating, poster, genres}) {
-    return (<div className="movies_movie">
+function Movie({id, year, title, summary, rating, poster, genres}) {
+    return (
+        <div className="movies_movie">
+            <Link
+            to={{
+            pathname: `/movie/${id}`,
+            state: {
+                year,
+                title,
+                summary,
+                rating,
+                poster,
+                genres
+            }
+            }}
+        >
         <div className="movies_movie_poster">
             <img src={poster} alt={title} title={title}></img>
         </div>
@@ -11,9 +26,11 @@ function Movie({year, title, summary, rating, poster, genres}) {
         <h5 className="movies_movie_year">{year}</h5>
         <ul className="movies_movie_genres">{genres.map((genre,index) => <li key={index} className="movies_movie_genre">{genre}</li>)}</ul>
 
-        {/* <h5 className="movies_movie_rating">{rating}</h5> */}
-        <p className="movies_movie_summary">{summary}</p>
-    </div>)
+        <h5 className="movies_movie_rating">Rating: {rating}</h5>
+        <p className="movies_movie_summary">Description: {summary.slice(0,200)}...</p>
+        </Link>
+        </div>
+    )
 }
 
 
@@ -22,7 +39,7 @@ Movie.propTypes = {
     year: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     summary: PropTypes.string.isRequired,
-    // rating: PropTypes.number.isRequired,
+    rating: PropTypes.number.isRequired,
     poster: PropTypes.string.isRequired,
     genres: PropTypes.arrayOf(PropTypes.string).isRequired
 };
